@@ -22,6 +22,10 @@ PREVENT_99: true
 # Distinguish UDF video discs from UDF data discs.  Requires mounting disc so adds a few seconds to the identify script.
 ARM_CHECK_UDF: true
 
+# Override automatic disc-type detection. Options are "auto", "dvd", "bluray", "music", or "data".
+# "music" uses abcde; "data" creates an ISO image.
+DISCTYPE_OVERRIDE: "auto"
+
 # Umask for created files (in RAW_PATH, TRANSCODE_PATH, and COMPLETED_PATH).
 # Setting this to 0o002 (octal) makes these files group writable.
 # For general information about umask, see for example https://en.wikipedia.org/wiki/Umask

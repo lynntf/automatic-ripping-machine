@@ -74,7 +74,7 @@ def log_arm_params(job):
     logging.info("******************* End of ARM variables *******************")
     logging.info("******************* Logging config parameters *******************")
     for key in ("SKIP_TRANSCODE", "MAINFEATURE", "MINLENGTH", "MAXLENGTH",
-                "VIDEOTYPE", "MANUAL_WAIT", "MANUAL_WAIT_TIME", "RIPMETHOD",
+                "VIDEOTYPE", "DISCTYPE_OVERRIDE", "MANUAL_WAIT", "MANUAL_WAIT_TIME", "RIPMETHOD",
                 "MKV_ARGS", "DELRAWFILES", "HB_PRESET_DVD", "HB_PRESET_BD",
                 "HB_ARGS_DVD", "HB_ARGS_BD", "FFMPEG_CLI", "FFMPEG_LOCAL", "USE_FFMPEG",
                 "FFMPEG_ARGS", "RAW_PATH", "TRANSCODE_PATH",

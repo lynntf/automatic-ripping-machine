@@ -16,7 +16,7 @@ import xml.parsers.expat
 import arm.config.config as cfg
 from arm.models import Job
 
-from arm.ripper import utils
+from arm.ripper import music_brainz, utils
 from arm.ripper.ProcessHandler import arm_subprocess
 from arm.ui import db
 
@@ -64,11 +64,14 @@ def identify(job):
     logging.debug("Identify Entry point --- job ----")
 
     mounted = check_mount(job)
+    disc_type_override = str(cfg.arm_config.get("DISCTYPE_OVERRIDE", "auto")).strip().lower()
 
     # get_disc_type() checks local files, no need to run unless we can mount
-    if mounted:
+    if mounted and disc_type_override == "auto":
         # Check with the job class to get the correct disc type
         job.get_disc_type(utils.find_file("HVDVD_TS", job.mountpoint))
+
+    apply_disc_type_override(job, disc_type_override)
 
     if job.disctype in ["dvd", "bluray"]:
 
@@ -92,6 +95,30 @@ def identify(job):
             logging.debug(f"identify.job.end ---- \n\r{job.pretty_table()}")
     # No need to warn if we cant unmount
     arm_subprocess(["umount", job.devpath])
+
+
+def apply_disc_type_override(job, override):
+    """Apply the configured disc type after validating the override."""
+    override_types = {
+        "auto": None,
+        "dvd": "dvd",
+        "bluray": "bluray",
+        "music": "music",
+        "data": "data",
+    }
+    if override not in override_types:
+        raise utils.RipperException(
+            f"Invalid DISCTYPE_OVERRIDE '{override}'. "
+            f"Expected one of: {', '.join(override_types)}"
+        )
+
+    if override == "auto":
+        return
+
+    job.disctype = override_types[override]
+    logging.info(f"Disc type overridden to {override}")
+    if override == "music":
+        job.label = music_brainz.main(job)
 
 
 def identify_bluray(job):

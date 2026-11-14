@@ -33,6 +33,7 @@ See: https://b3n.org/automatic-ripping-machine
 
 - Detects insertion of disc using udev
 - Determines disc type...
+  - Disc type detection can be overridden in `arm.yaml` with `DISCTYPE_OVERRIDE` (`auto`, `dvd`, `bluray`, `music`, or `data`)
   - If video (Blu-ray or DVD)
     - Retrieve title from disc or [OMDb API](http://www.omdbapi.com/) to name the folder "Movie Title (Year)" so that Plex or Emby can pick it up
     - Determine if video is Movie or TV using [OMDb API](http://www.omdbapi.com/)
